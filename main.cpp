@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include <random>
 #include <vector>
@@ -48,9 +50,16 @@ public:
 		gameMap[food_x][food_y] = '$';
 	}
 
+	void gotoXY(int x, int y)
+	{
+		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);	// 创建控制台操作许可证，存储到变量hConsole中
+		COORD pos = { (SHORT)x, (SHORT)y };					// 创建光标要去的位置(x, y)的变量
+		SetConsoleCursorPosition(hConsole, pos);			// 设置控制台光标的位置
+	}
+
 	void show()
 	{
-		system("cls");  // 清屏刷新
+		gotoXY(0, 0);		// 移动光标到左上角
 		cout << "All-time high score: " << loadHighScore() << ", Round: " << Round << ", Score: " << Score << endl;
 		for (int i = 0; i < WIDTH; i++)
 		{
@@ -187,10 +196,3 @@ public:
 		}
 	}
 };
-
-int main()
-{
-	Snake snake;
-	snake.run();
-	return 0;
-}
